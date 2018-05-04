@@ -43,7 +43,7 @@ The Siege Engine is only an engine, and primarily the client-side of an engine.
 Further, it is not a complete game, but requires additional game-specific code
 in order to flesh out an actual game.
 
-While it is still a big project, it is no where near the scale of an MMO project.
+While it is still a big project, it is nowhere near the scale of an MMO project.
 
 The reason we call it an MMO engine (the first M standing for Massively) is that
 we see no reason that the engine could not support massive player-bases (eventually),
@@ -84,7 +84,8 @@ performance API available.
 
 ### What is the Rust language?
 
-Rust is a systems programming language that runs blazingly fast, prevents segfaults,
+[Rust](https://rust-lang.org) is a systems programming language that runs blazingly fast,
+prevents segfaults,
 and guarantees thread safety. Performance is on-par with C++, but safety and ergonomics
 are much better. No segfaults, no bad pointers, no double frees, no memory leaks,
 zero-cost high level abstractions, thread safety, very convenient packaging, ergonomic
@@ -143,7 +144,28 @@ unsafes, and handled memory management with wrapping types, and did not do much
 else. In this way, the full Vulkan API is exposed and somewhat safe, but fully
 usable immediately.
 
+### Why does the first commit of many of these libraries contain so much code?
+
+The actual history of these libraries has been elided because it contained
+game-specific proprietary code. The first commit represents the state of the
+library after the game-specific proprietary code was removed.
+
+Several libraries retain their full history: `siege-math`, `siege-color`, and
+`ddsfile`, possibly more (this FAQ may not be up to date).
+
+### How long has this been in development?
+
+In its current form, since about May 2017. A previous version on vulkano was
+started in early 2017. Prior to that, another engine ("vast") using rust/OpenGL
+was developed between 2014 and 2017. Work before that used C++ and extends
+back to 2009 and used Ogre3D and RakNet. Some of that early work remains to be
+reimplemented.
+
 ### Are these really the most frequently asked questions?
 
 No. I have collected no statistics. This is just a convenient format to
 disseminate information.
+
+### My question was not addressed
+
+Please, open an [issue](https://github.com/SiegeEngine/siege-engine/issues)
