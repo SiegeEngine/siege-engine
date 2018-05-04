@@ -25,6 +25,7 @@ Table of Contents
     * [Why not use C\#?](#why-not-use-c-1)
     * [Why does this not use the piston\-engine?](#why-does-this-not-use-the-piston-engine)
     * [Why does this not use the vulkano library?](#why-does-this-not-use-the-vulkano-library)
+    * [Why does this have its own UI library and not use conrod?](#why-does-this-have-its-own-ui-library-and-not-use-conrod)
   * [Code Related](#code-related)
     * [Why does the first commit of many of these libraries contain so much code?](#why-does-the-first-commit-of-many-of-these-libraries-contain-so-much-code)
   * [Renderer Related](#renderer-related)
@@ -32,8 +33,11 @@ Table of Contents
     * [Why is the depth buffer backwards?](#why-is-the-depth-buffer-backwards)
     * [What rendering phases can I plug into?](#what-rendering-phases-can-i-plug-into)
     * [What render passes does siege\-render undergo?](#what-render-passes-does-siege-render-undergo)
+    * [Why does the terrain plugin take so long to render](#why-does-the-terrain-plugin-take-so-long-to-render)
+    * [Why is terrain heightmap based? Will there be other types of terrain? Voxels?](#why-is-terrain-heightmap-based-will-there-be-other-types-of-terrain-voxels)
+    * [Where are the character models and animations?](#where-are-the-character-models-and-animations)
   * [Asset pipeline related](#asset-pipeline-related)
-    * [Why is the mesh format custom?  Why not use assimp?](#why-is-the-mesh-format-custom--why-not-use-assimp)
+    * [Why is the mesh format custom? Why not use assimp?](#why-is-the-mesh-format-custom-why-not-use-assimp)
   * [Network Related](#network-related)
     * [Why is siege\-net on top of UDP?](#why-is-siege-net-on-top-of-udp)
     * [What network security is being used?](#what-network-security-is-being-used)
@@ -218,6 +222,18 @@ Using this tack, dacite was complete and stable much sooner than vulkano.
 We instead use the Vulkan validation layers (and frequent reads of the Vulkan
 specification) to help ensure that we are using the Vulkan API correctly.
 
+### Why does this have its own UI library and not use conrod?
+
+The siege-engine UI library is very new and was developed to get something on the
+screen quickly, without much regard to other libraries available. It is now about
+time to look around for something more than the fledgling UI we currently have,
+and conrod is on our radar.
+
+However, [this issue](https://github.com/PistonDevelopers/conrod/issues/1103) leads
+us to believe conrod (connie?) has made specific choices which do not align with
+our goals, and thus may not be usable by the siege engine. Even if that turns out
+to be the case, we hope to learn as much as we can from it.
+
 ## Code Related
 
 ### Why does the first commit of many of these libraries contain so much code?
@@ -271,9 +287,35 @@ the incremental cost of another renderpass is negligable.
 * **UI**: This is where you render your UI components, on top of everything else.
   The depth buffer is cleared and again available at this point.
 
+### Why does the terrain plugin take so long to render
+
+The terrain plugin is fledgling, and we are not doing LOD at all yet. Also, it
+currently uses five texture maps (albedo, normal, ambient occlusion, roughness,
+and cavity) and texture lookups have a definite cost.
+
+### Why is terrain heightmap based? Will there be other types of terrain? Voxels?
+
+The terrain plugin is a plugin precisely because this level of detail is not
+something we can dictate. You are not tied into this particular way of handling
+terrain. You may not even be an outdoorsy style game. Each game has it's own
+requirements.
+
+We provide a heightmap based terrain presently because that was fairly easy for
+us to achieve quickly. Feel free to develop a better one.
+
+### Where are the character models and animations?
+
+Art, models and animations are very game specific stuff. We will probably provide
+some placeholder art to help along other parts of development, but it is not the
+goal of this engine to provide any substantial game content.
+
+That being said, having technology for dealing with character models and animations
+is definately our intent. We just haven't quite gotten there yet. The piston engine
+project has a skeletal animation library we need to look into.
+
 ## Asset pipeline related
 
-### Why is the mesh format custom?  Why not use assimp?
+### Why is the mesh format custom? Why not use assimp?
 
 This is an area that needs a lot of development still. The custom format is a
 placeholder until that more thoughtful development takes place.
