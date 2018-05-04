@@ -1,5 +1,7 @@
 # Siege Engine FAQ
 
+## General
+
 ### What is the Siege Engine?
 
 The Siege Engine is an MMO Game Engine targetting the Vulkan API and written in the
@@ -70,6 +72,32 @@ While being game-agnostic, specific modules/plugins/libraries supporting traditi
 classic MMO feature sets will be developed and open-sourced, alleviating the heavy-
 lifting required to build a new game.
 
+### Why build yet another game engine?  Why not use Unreal Engine or Unity?
+
+Those engines rely on languages that we do not prefer.
+Further, they require commercial licensing. Additionally, they are vendor locked
+to the Microsoft Windows family of operating systems.
+
+In truth, the developer is not intimately familiar with every game engine
+that is out there (and there are scores). But it is already clear, looking out
+from the rust community, that none of them are written in rust, except piston,
+and we have a FAQ question about that below.
+
+### How long has this been in development?
+
+In its current form, since about May 2017. A previous version on vulkano was
+started in early 2017. Prior to that, another engine ("vast") using rust/OpenGL
+was developed between 2014 and 2017. Work before that used C++ and extends
+back to 2009 and used Ogre3D and RakNet. Some of that early work remains to be
+reimplemented.
+
+### Are these really the most frequently asked questions?
+
+No. I have collected no statistics. This is just a convenient format to
+disseminate information.
+
+## Vulkan Related
+
 ### What is the Vulkan API?
 
 Vulkan is a new generation graphics and compute API that provides high-efficiency,
@@ -87,6 +115,8 @@ Nothing is wrong with OpenGL. OpenGL is not going away and is the right solution
 where the highest performance is not required. The Siege Engine intends to support
 games of high commercial quality, and these types of games require the highest
 performance API available.
+
+## Rust Related
 
 ### What is the Rust language?
 
@@ -120,16 +150,6 @@ Microsoft Windows family of operating systems, making it "vendor locked."
 
 C# is the language used by the popular Unity engine.
 
-### Why build yet another game engine?  Why not use Unreal Engine or Unity?
-
-As mentioned above, those engines rely on languages that we do not prefer.
-Further, they require commercial licensing. Additionally, they are vendor locked
-to the Microsoft Windows family of operating systems.
-
-In truth, the developer is not intimately familiar with every game engine
-that is out there (and there are scores). But it is already clear, looking out
-from the rust community, that none of them are written in rust, except:
-
 ### Why does this not use the piston-engine?
 
 We actually do use some libraries from the piston engine such as `image` and
@@ -154,6 +174,8 @@ unsafes, and handled memory management with wrapping types, and did not do much
 else. In this way, the full Vulkan API is exposed and somewhat safe, but fully
 usable immediately.
 
+## Code Related
+
 ### Why does the first commit of many of these libraries contain so much code?
 
 The actual history of these libraries has been elided because it contained
@@ -163,18 +185,56 @@ library after the game-specific proprietary code was removed.
 Several libraries retain their full history: `siege-math`, `siege-color`, and
 `ddsfile`, possibly more (this FAQ may not be up to date).
 
-### How long has this been in development?
+## Renderer Related
 
-In its current form, since about May 2017. A previous version on vulkano was
-started in early 2017. Prior to that, another engine ("vast") using rust/OpenGL
-was developed between 2014 and 2017. Work before that used C++ and extends
-back to 2009 and used Ogre3D and RakNet. Some of that early work remains to be
-reimplemented.
+### What style renderer is used
 
-### Are these really the most frequently asked questions?
+`siege-render` uses a deferred shading style renderer. We started out doing
+forward rendering with an early depth pass, but found it too difficult to unify
+the shading across all of the different components.
 
-No. I have collected no statistics. This is just a convenient format to
-disseminate information.
+We provide a *transparent* pass, wherein the library consumer may shade in any
+which way they wish.
+
+### Why is the depth buffer backwards?
+
+[This page](https://developer.nvidia.com/content/depth-precision-visualized)
+says it best.
+
+### What rendering phases can I plug into?
+
+Right now, `geometry`, `transparent`, and `ui`, although the siege-engine is
+undergoing constant development, and I expect the renderer to change many
+more times yet before it settles down.
+
+### What render passes does siege-render undergo?
+
+There are currently six logical passes, but I expect more because we do not
+yet handle volume rendering, shadows, rayleigh scattering, etc. Under Vulkan,
+the incremental cost of another renderpass is negligable.
+
+* **Geometry**: This is where you draw your geometry. Your shaders need to
+  output data to the g-buffers, which includes diffuse, normals and material
+  information.
+* **Shading**: This internal pass is where enhanced physically based Blinn-Phong
+  shading occurs, based on the g-buffer data.
+* **Transparent**: This is the opportunity to render transparent objects, or indeed
+  any rendering that you don't want to be shaded by the shading pass, other
+  than UI.
+* **Blur**: This internal pass (actually two passes) handles blur and bloom effects.
+* **Post**: This internal pass handles post processing including tonemapping and
+  sRGB adjustments (where necessary).
+* **UI**: This is where you render your UI components, on top of everything else.
+  The depth buffer is cleared and again available at this point.
+
+## Asset pipeline related
+
+### Why is the mesh format custom?  Why not use assimp?
+
+This is an area that needs a lot of development still. The custom format is a
+placeholder until that more thoughtful development takes place.
+
+## Appendix
 
 ### My question was not addressed
 
