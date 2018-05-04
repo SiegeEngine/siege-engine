@@ -119,8 +119,7 @@ lifting required to build a new game.
 ### Why build yet another game engine?  Why not use Unreal Engine or Unity?
 
 Those engines rely on languages that we do not prefer.
-Further, they require commercial licensing. Additionally, they are vendor locked
-to the Microsoft Windows family of operating systems.
+Further, they require commercial licensing.
 
 In truth, the developer is not intimately familiar with every game engine
 that is out there (and there are scores). But it is already clear, looking out
@@ -192,7 +191,7 @@ C# has another set of language issues I could get into, much of which it shares
 with Java. But an even bigger issue is that C# is strongly tied into .NET and the
 Microsoft Windows family of operating systems, making it "vendor locked."
 
-C# is the language used by the popular Unity engine.
+C# is used by the popular Unity engine, however Unity itself is cross-platform.
 
 ### Why does this not use the piston-engine?
 
