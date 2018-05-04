@@ -126,6 +126,10 @@ As mentioned above, those engines rely on languages that we do not prefer.
 Further, they require commercial licensing. Additionally, they are vendor locked
 to the Microsoft Windows family of operating systems.
 
+In truth, the developer is not intimately familiar with every game engine
+that is out there (and there are scores). But it is already clear, looking out
+from the rust community, that none of them are written in rust, except:
+
 ### Why does this not use the piston-engine?
 
 We actually do use some libraries from the piston engine such as `image` and
