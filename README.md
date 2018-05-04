@@ -1,17 +1,17 @@
-# siege-engine
-
-This crate is documentation/overview only.
+# siege-engine-docs
 
 The Siege Engine is an MMO Game Engine targetting the Vulkan API and written in the
 Rust language.
+
+This crate is overview documentation only.
+
+For API level documentation, see the individual repositories themselves, and/or their
+rust documentation.
 
 ## Example
 
 Here is a screenshot from a game being developed using the Siege Engine:
 
-![Example Thumb](/example_thumb.png)
-[Click for larger image](/example.png)
+![Example](/example.png)
 
-## FAQ
-
-[FAQ](/FAQ.md)
+## [FAQ](/FAQ.md)
