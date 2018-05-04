@@ -5,6 +5,12 @@
 The Siege Engine is an MMO Game Engine targetting the Vulkan API and written in the
 Rust language.
 
+### Why are the client, server, and network component missing?
+
+This is temporary. We are in the process of removing game-specific
+proprietary code. Once that is complete to our satisfaction, these
+major components will be released.
+
 ### Is this a Game?
 
 No, it is only a set of libraries useful for buildling a game.
