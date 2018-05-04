@@ -118,8 +118,10 @@ lifting required to build a new game.
 
 ### Why build yet another game engine?  Why not use Unreal Engine or Unity?
 
-Those engines rely on languages that we do not prefer.
-Further, they require commercial licensing.
+Those engines rely on languages that we do not prefer. Further, they require commercial
+licensing. In some cases and respects there is vendor lock-in to the Microsoft
+Windows platform and/or the Apple MacOS platform (Unity targets 27 platforms but is
+only available on Windows and MacOS).
 
 In truth, the developer is not intimately familiar with every game engine
 that is out there (and there are scores). But it is already clear, looking out
