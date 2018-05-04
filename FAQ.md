@@ -1,5 +1,45 @@
 # Siege Engine FAQ
 
+Table of Contents
+=================
+
+* [Siege Engine FAQ](#siege-engine-faq)
+  * [General](#general)
+    * [What is the Siege Engine?](#what-is-the-siege-engine)
+    * [Why are the client, server, and network component missing?](#why-are-the-client-server-and-network-component-missing)
+    * [Is this a Game?](#is-this-a-game)
+    * [What executable do I run?](#what-executable-do-i-run)
+    * [What games are being developed using this engine?](#what-games-are-being-developed-using-this-engine)
+    * [Who is behind the Siege Engine?](#who-is-behind-the-siege-engine)
+    * [MMO? Really? Aren't MMOs gigantic projects?](#mmo-really-arent-mmos-gigantic-projects)
+    * [What is the Goal of the Siege Engine](#what-is-the-goal-of-the-siege-engine)
+    * [Why build yet another game engine?  Why not use Unreal Engine or Unity?](#why-build-yet-another-game-engine--why-not-use-unreal-engine-or-unity)
+    * [How long has this been in development?](#how-long-has-this-been-in-development)
+    * [Are these really the most frequently asked questions?](#are-these-really-the-most-frequently-asked-questions)
+  * [Vulkan Related](#vulkan-related)
+    * [What is the Vulkan API?](#what-is-the-vulkan-api)
+    * [What is wrong with OpenGL?](#what-is-wrong-with-opengl)
+  * [Rust Related](#rust-related)
+    * [What is the Rust language?](#what-is-the-rust-language)
+    * [Why not use C\+\+?](#why-not-use-c)
+    * [Why not use C\#?](#why-not-use-c-1)
+    * [Why does this not use the piston\-engine?](#why-does-this-not-use-the-piston-engine)
+    * [Why does this not use the vulkano library?](#why-does-this-not-use-the-vulkano-library)
+  * [Code Related](#code-related)
+    * [Why does the first commit of many of these libraries contain so much code?](#why-does-the-first-commit-of-many-of-these-libraries-contain-so-much-code)
+  * [Renderer Related](#renderer-related)
+    * [What style renderer is used](#what-style-renderer-is-used)
+    * [Why is the depth buffer backwards?](#why-is-the-depth-buffer-backwards)
+    * [What rendering phases can I plug into?](#what-rendering-phases-can-i-plug-into)
+    * [What render passes does siege\-render undergo?](#what-render-passes-does-siege-render-undergo)
+  * [Asset pipeline related](#asset-pipeline-related)
+    * [Why is the mesh format custom?  Why not use assimp?](#why-is-the-mesh-format-custom--why-not-use-assimp)
+  * [Network Related](#network-related)
+    * [Why is siege\-net on top of UDP?](#why-is-siege-net-on-top-of-udp)
+    * [What network security is being used?](#what-network-security-is-being-used)
+  * [Appendix](#appendix)
+    * [My question was not addressed](#my-question-was-not-addressed)
+
 ## General
 
 ### What is the Siege Engine?
