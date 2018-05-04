@@ -171,8 +171,12 @@ where vulkano was not yet ready, and open issues remaining stagnant.
 
 Another crate `dacite` took a different approach. It handled/wrapped the low-level
 unsafes, and handled memory management with wrapping types, and did not do much
-else. In this way, the full Vulkan API is exposed and somewhat safe, but fully
-usable immediately.
+else. In this way, the full Vulkan API is exposed and is thread-safe and memory-safe,
+but doesn't go so far to ensure you meet all the requirements of the Vulkan API.
+Using this tack, dacite was complete and stable much sooner than vulkano.
+
+We instead use the Vulkan validation layers (and frequent reads of the Vulkan
+specification) to help ensure that we are using the Vulkan API correctly.
 
 ## Code Related
 
@@ -233,6 +237,30 @@ the incremental cost of another renderpass is negligable.
 
 This is an area that needs a lot of development still. The custom format is a
 placeholder until that more thoughtful development takes place.
+
+## Network Related
+
+### Why is siege-net on top of UDP?
+
+UDP is the only widely available Internet wide protocol that could world well for us.
+TCP has issues around the Nagle algorithm, and retransmits and reassemblies that
+are forced upon us even in cases when we don't want them. SCTP and similar are
+not reliably available Internet-wide.
+
+We didn't have to build on top of UDP from scratch, we could have used another
+layer that handled the retransmission, multiplexing, flow and congestion control.
+But we have not yet found such a library that we really like, so we are staying
+put for the moment. This could easily change.
+
+### What network security is being used?
+
+In short, A secure session is established using ephemeral keys and X25519 key agreement.
+Clients authenticate the server via a well known public key signing a client-supplied
+nonce.  Packets are signed and authenticated (AEAD) using AES_128 GCM, which is
+implemented in hardware on x86_64 platforms, so it goes really fast. The author
+used to work as a Computer Security researcher and isn't a stranger to cryptography,
+nor to its insidiously difficult-to-get-right nature. Nonetheless, we probably did
+it wrong. ;-)
 
 ## Appendix
 
