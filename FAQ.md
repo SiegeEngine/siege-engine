@@ -73,7 +73,17 @@ please do not anticipate it.  The developer of that game decided to open-source
 the engine component, while keeping the game-specific components proprietary.
 The Siege Engine is that open-sourced component.
 
-We hope the engine can become useful enough for additional games to use it.
+We hope the engine can become useful enough for additional games to use it, and
+that we can find collaborators to help us develop it.
+
+### Is it usable now, or does it still need more development?
+
+It is certainly usable right now, *and* it also needs more development.
+
+You could in theory write an exciting multiplayer game on the siege engine today
+without any additional modifications to the engine. But it is unlikely. You
+will probably find that you'll need to make changes to the engine to support your
+use case.
 
 ### Who is behind the Siege Engine?
 
@@ -87,7 +97,7 @@ Other developers are encouraged to contribute.
 ### MMO? Really? Aren't MMOs gigantic projects?
 
 Yes. MMOs are gigantic projects. The engine is just one part of an MMO. MMOs
-also require very advanced server technologies, game rulesets, and of course
+also require advanced server technologies, game rulesets, and of course
 a virtual world with plenty of art, animations, etc, not to mention the business
 and management of the customer relationships, investors, media, etc.
 
@@ -103,30 +113,35 @@ and see no reason to limit ourselves.
 
 ### What is the Goal of the Siege Engine
 
-The longterm goal is to provide a fully open-sourced and community driven MMO client
-and protocol, enabling multiple "game world" providers to run potentially commercial
-services that are compliant with the client/protocol. With enough standardization,
-alternate compatible clients could be developed in the future.
+The primary goal is to provide a fully open-source rust-based game engine for
+MMO style games.
+
+An additional speculative longterm goal is to provide a fully open-sourced and
+community driven MMO client and protocol, enabling multiple "game world" providers
+to run potentially commercial services that are compliant with the client/protocol.
+With enough standardization, alternate compatible clients could be developed in the
+future, leaving behind a legacy of an open standard for core elements of MMO
+games and their protocols.
 
 It remains to be seen how much can be standardized and how much is game specific, and
 where exactly to draw the line. This project started to support a specific game, but
 is transitioning towards being as game-agnostic as possible.
 
-While being game-agnostic, specific modules/plugins/libraries supporting traditional
-classic MMO feature sets will be developed and open-sourced, alleviating the heavy-
-lifting required to build a new game.
-
 ### Why build yet another game engine?  Why not use Unreal Engine or Unity?
 
-Those engines rely on languages that we do not prefer. Further, they require commercial
-licensing. In some cases and respects there is vendor lock-in to the Microsoft
-Windows platform and/or the Apple MacOS platform (Unity targets 27 platforms but is
+Those engines are proprietary and require commercial licensing. They also are implemented
+in and rely on languages that are brittle and which we do not prefer.  In some respects,
+they also have a lot of vendor lock-in to the Microsoft Windows platform, and in the
+case of Unity, also to the Apple MacOS platform (Unity targets 27 platforms but is
 only available on Windows and MacOS).
 
-In truth, the developer is not intimately familiar with every game engine
-that is out there (and there are scores). But it is already clear, looking out
-from the rust community, that none of them are written in rust, except piston,
-and we have a FAQ question about that below.
+In truth, the developer is not intimately familiar with every game engine that is out
+there (and there are scores). But it is already clear, looking out from the rust community
+that none of them are written in rust, except piston, and we have a FAQ question about
+that below: [Why does this not use the piston\-engine?](#why-does-this-not-use-the-piston-engine)
+
+Lastly, it is educational and inspiring to successfully implement features of a game
+engine.
 
 ### How long has this been in development?
 
@@ -141,6 +156,42 @@ reimplemented.
 No. I have collected no statistics. This is just a convenient format to
 disseminate information.
 
+## Platform Related
+
+### What platforms does the Siege Engine target?
+
+The siege engine currently targets the Linux and Microsoft Windows platforms.
+However, the policy has been to be as inclusive as possible.
+
+As rust and vulkan target more platforms, we find it easier to support them as well.
+Android might already be supported (we simply haven't tried yet). MacOS would be
+supported if they supported Vulkan, and there are rumored ways to make that happen
+with 3rd party packages.
+
+### What about consoles?
+
+Consoles have very custom processors, languages, and development kits and do not
+support open standards like Vulkan (yet), and are thus not supported by the Siege
+Engine.
+
+### Does it support VR?
+
+There is no VR specific code yet, but as Vulkan supports VR it is certainly
+within the realm of possibility.
+
+VR requires rendering to two different swapchain render targets, one for each eye.
+Better support for this was released in Vulkan 1.1.  Unfortunately, we can't use
+Vulkan 1.1 quite yet, but this is unlikely to be a longterm issue.
+
+### Does it support High Dyanmic Range?
+
+Theoretically, yes.
+
+But at least on linux, your window management system probably does not yet
+understand that it should not send (255,255,255) as white (that is a *very* bright
+white on an HDR monitor). The real issue in the linux world is that the linux
+ecosystem is not ready for HDR.
+
 ## Vulkan Related
 
 ### What is the Vulkan API?
@@ -150,7 +201,8 @@ cross-platform access to modern GPUs used in a wide variety of devices from PCs
 and consoles to mobile phones and embedded platforms.
 See [Vulkan](https://www.khronos.org/vulkan).
 
-If you want both cross-platform and high-performance, Vulkan is the answer.
+If you want vendor neutral cross-platform support and also require high-performance,
+Vulkan is the answer.
 
 Vulkan was created by the same organisation that created OpenGL, the Khronos group.
 
@@ -181,11 +233,13 @@ the same people who brought us the Firefox web browser.
 
 ### Why not use C++?
 
-We think that the rust language simply offers a better deal.
+We think that the rust language simply offers a better deal: see
+[What is the Rust language?](#what-is-the-rust-language).
 
 C++ is common in game engine development, however. Epic Games' Unreal Engine, for
 example, is written in C++. By moving to rust, however, we do not need to leave all that
-legacy code behind. Rust programs can link to C++ programs with extern "C" functions.
+legacy code behind. Rust programs can link via to any program that honors the C ABI,
+including to C++ libraries with that expose extern "C" functions.
 
 ### Why not use C#?
 
@@ -198,27 +252,31 @@ C# is used by the popular Unity engine, however Unity itself is cross-platform.
 ### Why does this not use the piston-engine?
 
 We actually do use some libraries from the piston engine such as `image` and
-`ddsfile`. However, not the core engine itself, as we find that we are targeting
-different purposes.
+`ddsfile` (which we contributed). However, not the core engine itself, as we find
+that we seem to be targeting different types of games.
 
-We are excited about dyon and hope to investigate it further.
+We are excited about [dyon](https://github.com/PistonDevelopers/dyon) and plan to
+investigate it further.
 
 ### Why does this not use the vulkano library?
 
 Most rust FFI libraries ship with two crates: a system level crate, and a higher
-level crate providing Rust-style abstractions. Vulkano follows that pattern.
+level crate wrapping the unsafes and providing Rust friendly types and abstractions.
+Vulkano follows that pattern.
 
-But vulkan is a very complex and fragile API. In order to guarantee safety,
-the high level crate must do an incredible amount of work.
+But the Vulkan API is a very complex and fragile API. In order to guarantee safety,
+the high level crate must do an incredible amount of work. This makes vulkano an
+extremely ambitious project.
 
 We used vulkano early on, but moved away from it as we found numerous cases
 where vulkano was not yet ready, and open issues remaining stagnant.
 
-Another crate `dacite` took a different approach. It handled/wrapped the low-level
+Another crate `dacite` took a different approach. It wrapped the low-level
 unsafes, and handled memory management with wrapping types, and did not do much
-else. In this way, the full Vulkan API is exposed and is thread-safe and memory-safe,
-but doesn't go so far to ensure you meet all the requirements of the Vulkan API.
-Using this tack, dacite was complete and stable much sooner than vulkano.
+else. In this way, the full Vulkan API is exposed and is thread-safe and memory-safe
+and has no memory leaks or resource leaks, yet it doesn't go so far to ensure that
+you cannot possibly break the requirements of the Vulkan API. Taking this tack,
+dacite was complete and stable much sooner than vulkano.
 
 We instead use the Vulkan validation layers (and frequent reads of the Vulkan
 specification) to help ensure that we are using the Vulkan API correctly.
@@ -239,28 +297,28 @@ to be the case, we hope to learn as much as we can from it.
 
 ### Why does the first commit of many of these libraries contain so much code?
 
-The actual history of these libraries has been elided because it contained
-game-specific proprietary code. The first commit represents the state of the
-library after the game-specific proprietary code was removed.
+The actual history of some of these libraries has been elided because it contained
+game-specific proprietary code. The first commit (or series of commits) represents
+the state of the library after the game-specific proprietary code was removed.
 
-Several libraries retain their full history: `siege-math`, `siege-color`, and
-`ddsfile`, possibly more (this FAQ may not be up to date).
+Some of the libraries retain their full history.
 
 ## Renderer Related
 
 ### What style renderer is used
 
 `siege-render` uses a deferred shading style renderer. We started out doing
-forward rendering with an early depth pass, but found it too difficult to unify
-the shading across all of the different components.
+forward rendering with an early depth pass, but found it too cumbersome to maintain
+separate shader code for each plugin.
 
 We provide a *transparent* pass, wherein the library consumer may shade in any
 which way they wish.
 
 ### Why is the depth buffer backwards?
 
+The depth buffer 'direction' is configurable, but defaults to 'reversed'.
 [This page](https://developer.nvidia.com/content/depth-precision-visualized)
-says it best.
+explains it best.
 
 ### What rendering phases can I plug into?
 
@@ -286,13 +344,13 @@ the incremental cost of another renderpass is negligable.
 * **Post**: This internal pass handles post processing including tonemapping and
   sRGB adjustments (where necessary).
 * **UI**: This is where you render your UI components, on top of everything else.
-  The depth buffer is cleared and again available at this point.
+  The depth buffer is cleared and again available during this pass.
 
 ### Why does the terrain plugin take so long to render
 
 The terrain plugin is fledgling, and we are not doing LOD at all yet. Also, it
 currently uses five texture maps (albedo, normal, ambient occlusion, roughness,
-and cavity) and texture lookups have a definite cost.
+and cavity) and texture lookups are relatively expensive.
 
 ### Why is terrain heightmap based? Will there be other types of terrain? Voxels?
 
@@ -302,17 +360,18 @@ terrain. You may not even be an outdoorsy style game. Each game has it's own
 requirements.
 
 We provide a heightmap based terrain presently because that was fairly easy for
-us to achieve quickly. Feel free to develop a better one.
+us to achieve quickly, and it will be used in a particular game. Feel free to
+develop different ones.
 
 ### Where are the character models and animations?
 
-Art, models and animations are very game specific stuff. We will probably provide
+Art, models and animations are very game specific things. We will probably provide
 some placeholder art to help along other parts of development, but it is not the
 goal of this engine to provide any substantial game content.
 
-That being said, having technology for dealing with character models and animations
-is definately our intent. We just haven't quite gotten there yet. The piston engine
-project has a skeletal animation library we need to look into.
+That being said, having technology for dealing with animations is definately our
+intent. We just haven't quite gotten there yet. The piston engine project has a
+skeletal animation library we need to look into.
 
 ## Asset pipeline related
 
@@ -326,24 +385,28 @@ placeholder until that more thoughtful development takes place.
 ### Why is siege-net on top of UDP?
 
 UDP is the only widely available Internet wide protocol that could world well for us.
-TCP has issues around the Nagle algorithm, and retransmits and reassemblies that
-are forced upon us even in cases when we don't want them. SCTP and similar are
-not reliably available Internet-wide.
+TCP has issues around the Nagle algorithm (corking delay), and re-transmits and
+re-assemblies that are forced upon us even in cases when we don't want them.
+SCTP and similar are better but not reliably available Internet-wide.
 
 We didn't have to build on top of UDP from scratch, we could have used another
 layer that handled the retransmission, multiplexing, flow and congestion control.
 But we have not yet found such a library that we really like, so we are staying
-put for the moment. This could easily change.
+put for the moment.
+
+This state of affairs could easily change.
 
 ### What network security is being used?
 
-In short, A secure session is established using ephemeral keys and X25519 key agreement.
+In short, a secure session is established using ephemeral keys and X25519 key agreement.
 Clients authenticate the server via a well known public key signing a client-supplied
-nonce.  Packets are signed and authenticated (AEAD) using AES_128 GCM, which is
-implemented in hardware on x86_64 platforms, so it goes really fast. The author
-used to work as a Computer Security researcher and isn't a stranger to cryptography,
-nor to its insidiously difficult-to-get-right nature. Nonetheless, we probably did
-it wrong. ;-)
+nonce. Packets are signed and authenticated (AEAD) using AES_128 GCM, which is
+implemented in hardware on x86_64 platforms, so it goes really fast.
+
+The author used to work as a Computer Security researcher and isn't a stranger to
+cryptography, nor to its insidiously difficult-to-get-right nature. We hope we got it
+right, but there is a good chance we messed something up. We invite review and
+criticism.
 
 ## Appendix
 
