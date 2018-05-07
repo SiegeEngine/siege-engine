@@ -3,59 +3,55 @@
 Table of Contents
 =================
 
-* [Siege Engine FAQ](#siege-engine-faq)
-* [Table of Contents](#table-of-contents)
-  * [General](#general)
-    * [What is the Siege Engine?](#what-is-the-siege-engine)
-    * [Why are the client, server, and network component missing?](#why-are-the-client-server-and-network-component-missing)
-    * [Is this a Game?](#is-this-a-game)
-    * [What executable do I run?](#what-executable-do-i-run)
-    * [What games are being developed using this engine?](#what-games-are-being-developed-using-this-engine)
-    * [Is it usable now, or does it still need more development?](#is-it-usable-now-or-does-it-still-need-more-development)
-    * [Who is behind the Siege Engine?](#who-is-behind-the-siege-engine)
-    * [MMO? Really? Aren't MMOs gigantic projects?](#mmo-really-arent-mmos-gigantic-projects)
-    * [What is the Goal of the Siege Engine](#what-is-the-goal-of-the-siege-engine)
-    * [How long has this been in development?](#how-long-has-this-been-in-development)
-    * [Are these really the most frequently asked questions?](#are-these-really-the-most-frequently-asked-questions)
-  * [Other Engines](#other-engines)
-    * [Why build yet another game engine?  Why not use an existing engine?](#why-build-yet-another-game-engine--why-not-use-an-existing-engine)
-    * [How does this compare to other game engines?](#how-does-this-compare-to-other-game-engines)
-    * [How does this compare to Unreal Engine?](#how-does-this-compare-to-unreal-engine)
-    * [How does this compare to Unity Engine?](#how-does-this-compare-to-unity-engine)
-    * [How does this compare to Godot?](#how-does-this-compare-to-godot)
-    * [How does this compare to Urho3D?](#how-does-this-compare-to-urho3d)
-  * [Platform](#platform)
-    * [What platforms does the Siege Engine target?](#what-platforms-does-the-siege-engine-target)
-    * [What about consoles?](#what-about-consoles)
-    * [Does it support VR?](#does-it-support-vr)
-    * [Does it support High Dyanmic Range?](#does-it-support-high-dyanmic-range)
-  * [Vulkan](#vulkan)
-    * [What is the Vulkan API?](#what-is-the-vulkan-api)
-    * [What is wrong with OpenGL?](#what-is-wrong-with-opengl)
-  * [Rust](#rust)
-    * [What is the Rust language?](#what-is-the-rust-language)
-    * [Why not use C\+\+?](#why-not-use-c)
-    * [Why not use C\#?](#why-not-use-c-1)
-    * [Why does this not use the piston\-engine?](#why-does-this-not-use-the-piston-engine)
-    * [Why does this not use the vulkano library?](#why-does-this-not-use-the-vulkano-library)
-    * [Why does this have its own UI library and not use conrod?](#why-does-this-have-its-own-ui-library-and-not-use-conrod)
-  * [Code](#code)
-    * [Why does the first commit of many of these libraries contain so much code?](#why-does-the-first-commit-of-many-of-these-libraries-contain-so-much-code)
-  * [Renderer](#renderer)
-    * [What style renderer is used](#what-style-renderer-is-used)
-    * [Why is the depth buffer backwards?](#why-is-the-depth-buffer-backwards)
-    * [What rendering phases can I plug into?](#what-rendering-phases-can-i-plug-into)
-    * [What render passes does siege\-render undergo?](#what-render-passes-does-siege-render-undergo)
-    * [Why does the terrain plugin take so long to render](#why-does-the-terrain-plugin-take-so-long-to-render)
-    * [Why is terrain heightmap based? Will there be other types of terrain? Voxels?](#why-is-terrain-heightmap-based-will-there-be-other-types-of-terrain-voxels)
-    * [Where are the character models and animations?](#where-are-the-character-models-and-animations)
-  * [Asset pipeline](#asset-pipeline)
-    * [Why is the mesh format custom? Why not use assimp?](#why-is-the-mesh-format-custom-why-not-use-assimp)
-  * [Network](#network)
-    * [Why is siege\-net on top of UDP?](#why-is-siege-net-on-top-of-udp)
-    * [What network security is being used?](#what-network-security-is-being-used)
-  * [Appendix](#appendix)
-    * [My question was not addressed](#my-question-was-not-addressed)
+   * [Siege Engine FAQ](#siege-engine-faq)
+   * [Table of Contents](#table-of-contents)
+      * [General](#general)
+         * [What is the Siege Engine?](#what-is-the-siege-engine)
+         * [Why are the client and server missing?](#why-are-the-client-and-server-missing)
+         * [Is this a Game?](#is-this-a-game)
+         * [What executable do I run?](#what-executable-do-i-run)
+         * [What games are being developed using this engine?](#what-games-are-being-developed-using-this-engine)
+         * [Is it usable now, or does it still need more development?](#is-it-usable-now-or-does-it-still-need-more-development)
+         * [Who is behind the Siege Engine?](#who-is-behind-the-siege-engine)
+         * [MMO? Really? Aren't MMOs gigantic projects?](#mmo-really-arent-mmos-gigantic-projects)
+         * [What is the Goal of the Siege Engine](#what-is-the-goal-of-the-siege-engine)
+         * [How long has this been in development?](#how-long-has-this-been-in-development)
+         * [Are these really the most frequently asked questions?](#are-these-really-the-most-frequently-asked-questions)
+      * [Other Engines](#other-engines)
+         * [Why build yet another game engine?  Why not use an existing engine?](#why-build-yet-another-game-engine--why-not-use-an-existing-engine)
+         * [How does this compare to other game engines?](#how-does-this-compare-to-other-game-engines)
+      * [Platform](#platform)
+         * [What platforms does the Siege Engine target?](#what-platforms-does-the-siege-engine-target)
+         * [What about consoles?](#what-about-consoles)
+         * [Does it support VR?](#does-it-support-vr)
+         * [Does it support High Dyanmic Range?](#does-it-support-high-dyanmic-range)
+      * [Vulkan](#vulkan)
+         * [What is the Vulkan API?](#what-is-the-vulkan-api)
+         * [What is wrong with OpenGL?](#what-is-wrong-with-opengl)
+      * [Rust](#rust)
+         * [What is the Rust language?](#what-is-the-rust-language)
+         * [Why not use C  ?](#why-not-use-c)
+         * [Why not use C#?](#why-not-use-c-1)
+         * [Why does this not use the piston-engine?](#why-does-this-not-use-the-piston-engine)
+         * [Why does this not use the vulkano library?](#why-does-this-not-use-the-vulkano-library)
+         * [Why does this have its own UI library and not use conrod?](#why-does-this-have-its-own-ui-library-and-not-use-conrod)
+      * [Code](#code)
+         * [Why does the first commit of many of these libraries contain so much code?](#why-does-the-first-commit-of-many-of-these-libraries-contain-so-much-code)
+      * [Renderer](#renderer)
+         * [What style renderer is used](#what-style-renderer-is-used)
+         * [Why is the depth buffer backwards?](#why-is-the-depth-buffer-backwards)
+         * [What rendering phases can I plug into?](#what-rendering-phases-can-i-plug-into)
+         * [What render passes does siege-render undergo?](#what-render-passes-does-siege-render-undergo)
+         * [Why does the terrain plugin take so long to render](#why-does-the-terrain-plugin-take-so-long-to-render)
+         * [Why is terrain heightmap based? Will there be other types of terrain? Voxels?](#why-is-terrain-heightmap-based-will-there-be-other-types-of-terrain-voxels)
+         * [Where are the character models and animations?](#where-are-the-character-models-and-animations)
+      * [Asset pipeline](#asset-pipeline)
+         * [Why is the mesh format custom? Why not use assimp?](#why-is-the-mesh-format-custom-why-not-use-assimp)
+      * [Network](#network)
+         * [Why is siege-net on top of UDP?](#why-is-siege-net-on-top-of-udp)
+         * [What network security is being used?](#what-network-security-is-being-used)
+      * [Appendix](#appendix)
+         * [My question was not addressed](#my-question-was-not-addressed)
 
 ## General
 
@@ -64,7 +60,7 @@ Table of Contents
 The Siege Engine is an MMO Game Engine targetting the Vulkan API and written in the
 Rust language.
 
-### Why are the client, server, and network component missing?
+### Why are the client and server missing?
 
 This is temporary. We are in the process of removing game-specific
 proprietary code. Once that is complete to our satisfaction, these
@@ -82,9 +78,9 @@ little use to you.
 ### What games are being developed using this engine?
 
 Only one so far that I know of: The Eye of Ba'al. That game is far from complete,
-please do not anticipate it.  The developer of that game decided to open-source
-the engine component, while keeping the game-specific components proprietary.
-The Siege Engine is that open-sourced component.
+please do not anticipate it.  I decided to open-source the engine component,
+while keeping the game-specific components proprietary. The Siege Engine is that
+open-sourced component.
 
 We hope the engine can become useful enough for additional games to use it, and
 that we can find collaborators to help us develop it.
@@ -142,11 +138,7 @@ is transitioning towards being as game-agnostic as possible.
 
 ### How long has this been in development?
 
-In its current form, since about May 2017. A previous version on vulkano was
-started in early 2017. Prior to that, another engine ("vast") using rust/OpenGL
-was developed between 2014 and 2017. Work before that used C++ and extends
-back to 2009 and used Ogre3D and RakNet. Some of that early work remains to be
-reimplemented.
+In its current form, since about May 2017. Related work goes back much further.
 
 ### Are these really the most frequently asked questions?
 
@@ -193,48 +185,9 @@ We expect you can edit your assets/world in other tools and import them.
 many or as few as you like. Your `main()` function is yours - you own the top level
 code. Some other engines own the top level.
 
-* **limited cross-platform**: We support Microsoft Windows and Linux. We expect to be able
+* **cross-platform, somewhat**: We support Microsoft Windows and Linux. We expect to be able
 to support MacOS (if Vulkan becomes available there) and Android. We are unlikely to support
 consoles, but never say never.
-
-### How does this compare to Unreal Engine?
-
-First see [How does this compare to other game engines?](#how-does-this-compare-to-other-game-engines)
-for most of the answer.
-
-Unreal is a commercially licensed engine written in C++, with extensive editing capabilities.
-
-Unreal development started in 1998, so they are far ahead of us, but perhaps also have a
-lot of baggage.
-
-Unreal has historically had a bad reputation in the MMO space because of bugs/hacks that
-are a result of their internal design, which was originally built for LAN-based games, not
-Internet wide games.  Wall hacks, speed hacks, lag switches, and other hacks have caused
-untold damage to numerous indie MMO companies attempting to launch games written with the
-Unreal Engine.  I do not know the current state of these issues, however, but I lost trust
-in this engine long ago.
-
-Unreal Engine is the undisputed leader when it comes to photorealistic humans.
-
-### How does this compare to Unity Engine?
-
-First see [How does this compare to other game engines?](#how-does-this-compare-to-other-game-engines)
-for most of the answer.
-
-Unity is a commercially licensed engine written in C++, with extensive editing capabilities
-and wide cross-platform support (targets 27 platform), however the engine itself must be run
-on Microsoft Windows or MacOS (even though the output can target other platforms).
-
-### How does this compare to Godot?
-
-First see [How does this compare to other game engines?](#how-does-this-compare-to-other-game-engines)
-for most of the answer.
-
-Godot is a free and open-source MIT licensed game engine in C++. Research is ongoing.
-
-### How does this compare to Urho3D?
-
-Urho3D is a free and open-source game engine in C++. Research is ongoing.
 
 ## Platform
 
@@ -328,7 +281,8 @@ C# has another set of language issues I could get into, much of which it shares
 with Java. But an even bigger issue is that C# is strongly tied into .NET and the
 Microsoft Windows family of operating systems, making it "vendor locked."
 
-C# is used by the popular Unity engine, however Unity itself is cross-platform.
+C# is used by the popular Unity engine as a scripting language, however Unity itself
+is cross-platform and written in C++.
 
 ### Why does this not use the piston-engine?
 
