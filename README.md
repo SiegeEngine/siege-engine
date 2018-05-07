@@ -12,4 +12,7 @@ repositories themselves, and/or their rust documentation.
 
 The screenshot above is from a game being developed using the Siege Engine.
 
+An example usage of the engine is forthcoming. In the meantime, there is an example inside of
+the `siege-render` crate that could prove useful for getting started.
+
 ## The [FAQ](/FAQ.md)
