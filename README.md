@@ -10,6 +10,8 @@ repositories themselves, and/or their rust documentation.
 
 ## [FAQ](/FAQ.md)
 
+## [NEWS](/NEWS.md)
+
 ## Trying it out
 
 The `siege-example-client` crate is an example usage of the engine. You can compile and run
