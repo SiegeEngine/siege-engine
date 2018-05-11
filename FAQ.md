@@ -1,57 +1,53 @@
 # Siege Engine FAQ
 
-Table of Contents
-=================
-
-   * [Siege Engine FAQ](#siege-engine-faq)
-   * [Table of Contents](#table-of-contents)
-      * [General](#general)
-         * [What is the Siege Engine?](#what-is-the-siege-engine)
-         * [Why are the client and server missing?](#why-are-the-client-and-server-missing)
-         * [Is this a Game?](#is-this-a-game)
-         * [What executable do I run?](#what-executable-do-i-run)
-         * [What games are being developed using this engine?](#what-games-are-being-developed-using-this-engine)
-         * [Is it usable now, or does it still need more development?](#is-it-usable-now-or-does-it-still-need-more-development)
-         * [Who is behind the Siege Engine?](#who-is-behind-the-siege-engine)
-         * [MMO? Really? Aren't MMOs gigantic projects?](#mmo-really-arent-mmos-gigantic-projects)
-         * [What is the Goal of the Siege Engine](#what-is-the-goal-of-the-siege-engine)
-         * [How long has this been in development?](#how-long-has-this-been-in-development)
-         * [Are these really the most frequently asked questions?](#are-these-really-the-most-frequently-asked-questions)
-      * [Other Engines](#other-engines)
-         * [Why build yet another game engine?  Why not use an existing engine?](#why-build-yet-another-game-engine--why-not-use-an-existing-engine)
-         * [How does this compare to other game engines?](#how-does-this-compare-to-other-game-engines)
-      * [Platform](#platform)
-         * [What platforms does the Siege Engine target?](#what-platforms-does-the-siege-engine-target)
-         * [What about consoles?](#what-about-consoles)
-         * [Does it support VR?](#does-it-support-vr)
-         * [Does it support High Dyanmic Range?](#does-it-support-high-dyanmic-range)
-      * [Vulkan](#vulkan)
-         * [What is the Vulkan API?](#what-is-the-vulkan-api)
-         * [What is wrong with OpenGL?](#what-is-wrong-with-opengl)
-      * [Rust](#rust)
-         * [What is the Rust language?](#what-is-the-rust-language)
-         * [Why not use C  ?](#why-not-use-c)
-         * [Why not use C#?](#why-not-use-c-1)
-         * [Why does this not use the piston-engine?](#why-does-this-not-use-the-piston-engine)
-         * [Why does this not use the vulkano library?](#why-does-this-not-use-the-vulkano-library)
-         * [Why does this have its own UI library and not use conrod?](#why-does-this-have-its-own-ui-library-and-not-use-conrod)
-      * [Code](#code)
-         * [Why does the first commit of many of these libraries contain so much code?](#why-does-the-first-commit-of-many-of-these-libraries-contain-so-much-code)
-      * [Renderer](#renderer)
-         * [What style renderer is used](#what-style-renderer-is-used)
-         * [Why is the depth buffer backwards?](#why-is-the-depth-buffer-backwards)
-         * [What rendering phases can I plug into?](#what-rendering-phases-can-i-plug-into)
-         * [What render passes does siege-render undergo?](#what-render-passes-does-siege-render-undergo)
-         * [Why does the terrain plugin take so long to render](#why-does-the-terrain-plugin-take-so-long-to-render)
-         * [Why is terrain heightmap based? Will there be other types of terrain? Voxels?](#why-is-terrain-heightmap-based-will-there-be-other-types-of-terrain-voxels)
-         * [Where are the character models and animations?](#where-are-the-character-models-and-animations)
-      * [Asset pipeline](#asset-pipeline)
-         * [Why is the mesh format custom? Why not use assimp?](#why-is-the-mesh-format-custom-why-not-use-assimp)
-      * [Network](#network)
-         * [Why is siege-net on top of UDP?](#why-is-siege-net-on-top-of-udp)
-         * [What network security is being used?](#what-network-security-is-being-used)
-      * [Appendix](#appendix)
-         * [My question was not addressed](#my-question-was-not-addressed)
+* [Siege Engine FAQ](#siege-engine-faq)
+  * [General](#general)
+    * [What is the Siege Engine?](#what-is-the-siege-engine)
+    * [Why are the client and server missing?](#why-are-the-client-and-server-missing)
+    * [Is this a Game?](#is-this-a-game)
+    * [What executable do I run?](#what-executable-do-i-run)
+    * [What games are being developed using this engine?](#what-games-are-being-developed-using-this-engine)
+    * [Is it usable now, or does it still need more development?](#is-it-usable-now-or-does-it-still-need-more-development)
+    * [Who is behind the Siege Engine?](#who-is-behind-the-siege-engine)
+    * [MMO? Really? Aren't MMOs gigantic projects?](#mmo-really-arent-mmos-gigantic-projects)
+    * [What is the Goal of the Siege Engine](#what-is-the-goal-of-the-siege-engine)
+    * [How long has this been in development?](#how-long-has-this-been-in-development)
+    * [Are these really the most frequently asked questions?](#are-these-really-the-most-frequently-asked-questions)
+  * [Other Engines](#other-engines)
+    * [Why build yet another game engine?  Why not use an existing engine?](#why-build-yet-another-game-engine--why-not-use-an-existing-engine)
+    * [How does this compare to other game engines?](#how-does-this-compare-to-other-game-engines)
+  * [Platform](#platform)
+    * [What platforms does the Siege Engine target?](#what-platforms-does-the-siege-engine-target)
+    * [What about consoles?](#what-about-consoles)
+    * [Does it support VR?](#does-it-support-vr)
+    * [Does it support High Dyanmic Range?](#does-it-support-high-dyanmic-range)
+  * [Vulkan](#vulkan)
+    * [What is the Vulkan API?](#what-is-the-vulkan-api)
+    * [What is wrong with OpenGL?](#what-is-wrong-with-opengl)
+  * [Rust](#rust)
+    * [What is the Rust language?](#what-is-the-rust-language)
+    * [Why not use C\+\+ or C\#?](#why-not-use-c-or-c)
+    * [How is this different from other rust\-based game engines?](#how-is-this-different-from-other-rust-based-game-engines)
+    * [What graphics library is this based on, and why?](#what-graphics-library-is-this-based-on-and-why)
+    * [Why not use cgmath or nalgebra?  Why create yet another math crate?](#why-not-use-cgmath-or-nalgebra--why-create-yet-another-math-crate)
+    * [Why does this have its own UI library and not use an existing one?](#why-does-this-have-its-own-ui-library-and-not-use-an-existing-one)
+  * [Code](#code)
+    * [Why does the first commit of many of these libraries contain so much code?](#why-does-the-first-commit-of-many-of-these-libraries-contain-so-much-code)
+  * [Renderer](#renderer)
+    * [What style renderer is used](#what-style-renderer-is-used)
+    * [Why is the depth buffer backwards?](#why-is-the-depth-buffer-backwards)
+    * [What rendering phases can I plug into?](#what-rendering-phases-can-i-plug-into)
+    * [What render passes does siege\-render undergo?](#what-render-passes-does-siege-render-undergo)
+    * [Why does the terrain plugin take so long to render](#why-does-the-terrain-plugin-take-so-long-to-render)
+    * [Why is terrain heightmap based? Will there be other types of terrain? Voxels?](#why-is-terrain-heightmap-based-will-there-be-other-types-of-terrain-voxels)
+    * [Where are the character models and animations?](#where-are-the-character-models-and-animations)
+  * [Asset pipeline](#asset-pipeline)
+    * [Why is the mesh format custom? Why not use assimp?](#why-is-the-mesh-format-custom-why-not-use-assimp)
+  * [Network](#network)
+    * [Why is siege\-net on top of UDP?](#why-is-siege-net-on-top-of-udp)
+    * [What network security is being used?](#what-network-security-is-being-used)
+  * [Appendix](#appendix)
+    * [My question was not addressed](#my-question-was-not-addressed)
 
 ## General
 
@@ -158,8 +154,7 @@ option in pure rust because we know that such code will be more reliable.
 
 In truth, the developer is not intimately familiar with every game engine that is out
 there (and there are scores). But it is already clear, looking out from the rust community
-that none of them are written in rust, except piston, and we have a FAQ question about
-that below: [Why does this not use the piston\-engine?](#why-does-this-not-use-the-piston-engine)
+that only a few game engines are written in Rust, and we have FAQ entries about them below.
 
 Lastly, it is educational and inspiring to successfully implement features of a game
 engine.
@@ -264,7 +259,7 @@ beginners, experienced rust developers rarely have difficulties managing them.
 Rust is developed by the Mozilla Organisation,
 the same people who brought us the Firefox web browser.
 
-### Why not use C++?
+### Why not use C++ or C#?
 
 We think that the rust language simply offers a better deal: see
 [What is the Rust language?](#what-is-the-rust-language).
@@ -275,8 +270,6 @@ legacy code behind. Rust programs can link via to any program that honors the C 
 (as defined by the operating system), including to C++ libraries with that expose
 extern "C" functions.
 
-### Why not use C#?
-
 C# has another set of language issues I could get into, much of which it shares
 with Java. But an even bigger issue is that C# is strongly tied into .NET and the
 Microsoft Windows family of operating systems, making it "vendor locked."
@@ -284,49 +277,89 @@ Microsoft Windows family of operating systems, making it "vendor locked."
 C# is used by the popular Unity engine as a scripting language, however Unity itself
 is cross-platform and written in C++.
 
-### Why does this not use the piston-engine?
+### How is this different from other rust-based game engines?
+
+There are several other game engines in rust including piston, ggez, and unrust,
+and this is not an exhaustive list. We try to look into each of them.
 
 We actually do use some libraries from the piston engine such as `image` and
 `ddsfile` (which we contributed). However, not the core engine itself, as we find
-that we seem to be targeting different types of games.
+that we seem to be targeting different types of games. We are excited about
+[dyon](https://github.com/PistonDevelopers/dyon) and plan to investigate it further.
 
-We are excited about [dyon](https://github.com/PistonDevelopers/dyon) and plan to
-investigate it further.
+`ggez` explicitly targets 2D games, and we are targetting 3D.
 
-### Why does this not use the vulkano library?
+We are in communication with the developer of `unrust` and sharing what we can.
+His engine explicitly targets the browser through WebGL and wasm, whereas ours
+targets a desktop application for games where performance (especially network
+performance) is paramount.
 
-Most rust FFI libraries ship with two crates: a system level crate, and a higher
-level crate wrapping the unsafes and providing Rust friendly types and abstractions.
-Vulkano follows that pattern.
+### What graphics library is this based on, and why?
 
-But the Vulkan API is a very complex and fragile API. In order to guarantee safety,
-the high level crate must do an incredible amount of work. This makes vulkano an
-extremely ambitious project.
+Siege has a long history of shifting the underlying graphics library.
 
-We used vulkano early on, but moved away from it as we found numerous cases
-where vulkano was not yet ready, and open issues remaining stagnant.
+Originally we based off of vulkano. Vulkano follows the Rust philosophy, which is
+that "as long as you don't use unsafe code you shouldn't be able to trigger
+any undefined behavior." The Vulkan API is an incredibly unsafe API and it is
+very difficult to comply with it, and much harder to write code that always
+complies in all use cases. So Vulkano is very ambitious. It became quickly
+apparent that vulkano was not ready yet, and wasn't always being developed as
+actively as we had hoped.
 
-Another crate `dacite` took a different approach. It wrapped the low-level
-unsafes, and handled memory management with wrapping types, and did not do much
-else. In this way, the full Vulkan API is exposed and is thread-safe and memory-safe
-and has no memory leaks or resource leaks, yet it doesn't go so far to ensure that
-you cannot possibly break the requirements of the Vulkan API. Taking this tack,
-dacite was complete and stable much sooner than vulkano.
+We decided that instead of strict safety, we would rely on the Vulkan validation
+layers and frequent reads of the Vulkan specification.
 
-We instead use the Vulkan validation layers (and frequent reads of the Vulkan
-specification) to help ensure that we are using the Vulkan API correctly.
+Several other crates were wrapping the Vulkan API in less ambitious ways,
+hiding the unsafes and dealing with lifetimes and drop traits, but not
+ensuring that all requirements of the Vulkan API were met. These include
+`ash` and `dacite`.
 
-### Why does this have its own UI library and not use conrod?
+We started off using ash, but we ran into a problem. A pernicious bug that
+we were unable to find. We had put in a solid two weeks and were no closer
+to the problem. It manifested as a change in rendering behavior whenever
+different vulkan layers were used, and it manifested on completely different
+hardware so it was not driver dependent. I filed a bug with the vulkan layers
+but the Khronos group, try as they might, could not find the bug either.
+The reigning theory was subtle memory corruption, and the likely culprit
+was ash. Finally after about a month I decided to change underlying libraries
+and switched to the dacite crate.
+
+A year later and dacite is now stagnant. It also does some copies and
+allocations at runtime that are not strictly necessary. So we are keen to
+move on.
+
+gfx-rs offers great promise giving access to multiple graphics APIs (vulkan,
+direct3d, metal, WebGL, etc). However it is currently undergoing a major
+refactor/upheaval (the low-level refactor). Also it remains to be seen how
+much of the Vulkan functionality will be provided, and how much compromise
+will be made.
+
+We will probably change back to ash, since it is actively developed. But we are
+putting off this decision for now.
+
+### Why not use cgmath or nalgebra?  Why create yet another math crate?
+
+This was an admitted mistake on our part. We didn't think it through. We only
+thought "A math crate is small and easy, we can whip one of those up and have
+easy control of it." What we didn't realize is that further on down the road,
+our work would not as easily interoperate with other community work.
+
+So we intend to change over to cgmath, which is the more popular of the two
+and seems less wildly abstract than nalgebra.
+
+### Why does this have its own UI library and not use an existing one?
 
 The siege-engine UI library is very new and was developed to get something on the
 screen quickly, without much regard to other libraries available. It is now about
-time to look around for something more than the fledgling UI we currently have,
-and conrod is on our radar.
+time to look around for something more than the fledgling UI we currently have.
 
+Conrod is on our radar.
 However, [this issue](https://github.com/PistonDevelopers/conrod/issues/1103) leads
 us to believe conrod (connie?) has made specific choices which do not align with
 our goals, and thus may not be usable by the siege engine. Even if that turns out
 to be the case, we hope to learn as much as we can from it.
+
+A new crate xi-win-ui looks interesting.
 
 ## Code
 
