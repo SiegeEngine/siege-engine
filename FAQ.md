@@ -3,12 +3,12 @@
 * [Siege Engine FAQ](#siege-engine-faq)
   * [General](#general)
     * [What is the Siege Engine?](#what-is-the-siege-engine)
-    * [Why are the client and server missing?](#why-are-the-client-and-server-missing)
     * [Is this a Game?](#is-this-a-game)
     * [What executable do I run?](#what-executable-do-i-run)
     * [What games are being developed using this engine?](#what-games-are-being-developed-using-this-engine)
     * [Is it usable now, or does it still need more development?](#is-it-usable-now-or-does-it-still-need-more-development)
     * [Who is behind the Siege Engine?](#who-is-behind-the-siege-engine)
+    * [Why say `we` and not `I`?](#why-say-we-and-not-i)
     * [MMO? Really? Aren't MMOs gigantic projects?](#mmo-really-arent-mmos-gigantic-projects)
     * [What is the Goal of the Siege Engine](#what-is-the-goal-of-the-siege-engine)
     * [How long has this been in development?](#how-long-has-this-been-in-development)
@@ -56,12 +56,6 @@
 The Siege Engine is an MMO Game Engine targetting the Vulkan API and written in the
 Rust language.
 
-### Why are the client and server missing?
-
-This is temporary. We are in the process of removing game-specific
-proprietary code. Once that is complete to our satisfaction, these
-major components will be released.
-
 ### Is this a Game?
 
 No, it is only a set of libraries useful for buildling a game.
@@ -70,25 +64,28 @@ No, it is only a set of libraries useful for buildling a game.
 
 There is none. If you are not a developer, you will find the siege engine is of
 little use to you.
+But you can try the example https://github.com/SiegeEngine/siege-example-client
 
 ### What games are being developed using this engine?
 
-Only one so far that I know of: The Eye of Ba'al. That game is far from complete,
-please do not anticipate it.  I decided to open-source the engine component,
-while keeping the game-specific components proprietary. The Siege Engine is that
-open-sourced component.
+Just one that we are aware of.  We decided to open-source the engine component, while
+keeping the game-specific components proprietary. The Siege Engine is that open-sourced
+component.
 
 We hope the engine can become useful enough for additional games to use it, and
 that we can find collaborators to help us develop it.
 
 ### Is it usable now, or does it still need more development?
 
-It is certainly usable right now, *and* it also needs more development.
+We don't recommend using the Siege Engine just yet. This is because we are probably
+going to be replaing the vulkan library *and* the math library, and this means the
+types will be changing significantly.
 
-You could in theory write an exciting multiplayer game on the siege engine today
-without any additional modifications to the engine. But it is unlikely. You
-will probably find that you'll need to make changes to the engine to support your
-use case.
+Furthermore, we have not yet defined plugin interfaces for the client -- we just
+tossed out a client which has eight plugin-like modules (stats, camera, graybox,
+horizon, terrain, window, ui, and text). These will be re-organized into crates
+allowing you to pick and choose your features. But that depends first on replacing
+our basic types.
 
 ### Who is behind the Siege Engine?
 
@@ -98,6 +95,10 @@ is his game venture. [Optimal Computing](https://optcomp.nz) is his consulting
 company.
 
 Other developers are encouraged to contribute.
+
+### Why say `we` and not `I`?
+
+Habit, style and future-proofing.
 
 ### MMO? Really? Aren't MMOs gigantic projects?
 
@@ -134,7 +135,7 @@ is transitioning towards being as game-agnostic as possible.
 
 ### How long has this been in development?
 
-In its current form, since about May 2017. Related work goes back much further.
+In its current form, since January 2017. Related work goes back much further.
 
 ### Are these really the most frequently asked questions?
 
@@ -196,11 +197,14 @@ Android might already be supported (we simply haven't tried yet). MacOS would be
 supported if they supported Vulkan, and there are rumored ways to make that happen
 with 3rd party packages.
 
+We may in the future base our work on a rust project which abstracts across graphics
+APIs (gfx-rs). In that case, we would be able to support Metal, Direct3D, OpenGL,
+OpenGL ES, WebGL, and other APIs directly. But this is not assured at this point.
+
 ### What about consoles?
 
-Consoles have very custom processors, languages, and development kits and do not
-support open standards like Vulkan (yet), and are thus not supported by the Siege
-Engine.
+Consoles have their own custom graphics APIs that are not widely supported, and
+thus are difficult to target.
 
 ### Does it support VR?
 
@@ -209,7 +213,8 @@ within the realm of possibility.
 
 VR requires rendering to two different swapchain render targets, one for each eye.
 Better support for this was released in Vulkan 1.1.  Unfortunately, we can't use
-Vulkan 1.1 quite yet, but this is unlikely to be a longterm issue.
+Vulkan 1.1 quite yet (dacite support is for vulkan 1.0), but this is unlikely to
+be a longterm issue.
 
 ### Does it support High Dyanmic Range?
 
@@ -219,6 +224,8 @@ But at least on linux, your window management system probably does not yet
 understand that it should not send (255,255,255) as white (that is a *very* bright
 white on an HDR monitor). The real issue in the linux world is that the linux
 ecosystem is not ready for HDR.
+
+On windows it should work, but I do not have an HDR monitor to test this on.
 
 ## Vulkan
 
@@ -240,6 +247,16 @@ Nothing is wrong with OpenGL. OpenGL is not going away and is the right solution
 where the highest performance is not required. The Siege Engine intends to support
 games of high commercial quality, and these types of games require the highest
 performance API available.
+
+### What about WebGL? Don't you want to run in a browser too?
+
+Running in a browser is a huge boon to adoptability and accessibility. However,
+there are sacrifices. The graphics performance is less. And the network
+performance (due to issues inherent with TCP) can be limiting.
+
+We have simply chosen to support desktop applications, not browsers. If you think
+this was the wrong choice, you should go take a look at `unrust` which has chosen
+to operate in the browser using WebGL and wasm.
 
 ## Rust
 
@@ -414,11 +431,14 @@ the incremental cost of another renderpass is negligable.
 * **UI**: This is where you render your UI components, on top of everything else.
   The depth buffer is cleared and again available during this pass.
 
-### Why does the terrain plugin take so long to render
+### Why does the terrain plugin take so many milliseconds to render?
 
 The terrain plugin is fledgling, and we are not doing LOD at all yet. Also, it
 currently uses five texture maps (albedo, normal, ambient occlusion, roughness,
 and cavity) and texture lookups are relatively expensive.
+
+Even though it is terribly slow, you probably won't notice. You will probably
+get around 60fps anyways because the world is basically empty.
 
 ### Why is terrain heightmap based? Will there be other types of terrain? Voxels?
 
